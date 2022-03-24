@@ -1,0 +1,55 @@
+﻿<Window x:Class="Challenge4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Challenge4"
+        xmlns:view="clr-namespace:Challenge4.View"
+        xmlns:vm="clr-namespace:Challenge4.ViewModel"
+        xmlns:state="clr-namespace:Challenge4.State"
+        xmlns:converter="clr-namespace:Challenge4.Converter"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="581" Width="867" MinHeight="581" MinWidth="760">
+
+    <Window.DataContext>
+        <vm:MemberViewModel x:Name="viewModel"/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <converter:PageStateToVisibilityConverter x:Key="PageStateToVisibilityConverter"/>
+        <converter:PageStateToButtonColorConverter x:Key="PageStateToBtnBg"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="btnAddMember" Content="신규 회원 등록" Grid.Column="1" Grid.Row="1" FontSize="15"
+                Command="{Binding ChangePageStateCommand}" CommandParameter="{x:Static state:PageState.AddMember}"
+                Background="{Binding PageState, ElementName=viewModel, Converter={StaticResource PageStateToBtnBg}, ConverterParameter={x:Static state:PageState.AddMember}}"/>
+        <Button x:Name="btnMemberList" Content="회원 목록" Grid.Column="3" Grid.Row="1" FontSize="15"
+                Command="{Binding ChangePageStateCommand}" CommandParameter="{x:Static state:PageState.MemberList}"
+                Background="{Binding PageState, ElementName=viewModel, Converter={StaticResource PageStateToBtnBg}, ConverterParameter={x:Static state:PageState.MemberList}}"/>
+
+        <Grid x:Name="ContentGrid" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="4">
+            <view:MemberListView x:Name="viewMemberList"
+                                 Visibility="{Binding PageState, ElementName=viewModel, Converter={StaticResource PageStateToVisibilityConverter}, ConverterParameter={x:Static state:PageState.MemberList}}"/>
+            <view:AddMemberView x:Name="viewAddMember"
+                                Visibility="{Binding PageState, ElementName=viewModel, Converter={StaticResource PageStateToVisibilityConverter}, ConverterParameter={x:Static state:PageState.AddMember}}"/>
+        </Grid>
+    </Grid>
+</Window>

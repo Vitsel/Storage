@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="Challenge1.InputBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Challenge1"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="500">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="BorderBrush">#BEBEBE</SolidColorBrush>
+        <SolidColorBrush x:Key="TxtBoxBgBrush" Color="White"/>
+    </UserControl.Resources>
+    <Grid>
+        <Rectangle StrokeThickness="1" Stroke="{StaticResource BorderBrush}" Fill="{StaticResource TxtBoxBgBrush}"/>
+        <Label x:Name="title" HorizontalAlignment="Left" Padding="10,0" 
+               FontSize="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=FontSize}" Foreground="{StaticResource BorderBrush}"
+               VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+               BorderThickness="1" BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=BorderBrush}"/>
+    </Grid>
+</UserControl>

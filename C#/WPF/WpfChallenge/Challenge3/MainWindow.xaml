@@ -1,0 +1,47 @@
+﻿<Window x:Class="Challenge3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Challenge3"
+        xmlns:vm="clr-namespace:Challenge3.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    
+    <Window.DataContext>
+        <vm:UserListViewModel/>
+    </Window.DataContext>
+    
+    <Grid>
+        <Button x:Name="BtnAdd" Content="신규 회원 추가" HorizontalAlignment="Left" Height="35" Margin="10,10,0,0" Background="White"
+                VerticalAlignment="Top" Width="99" Click="BtnAdd_Click" Style="{DynamicResource RoundButtonTemplate}"/>
+        <Button x:Name="BtnDelete" Content="선택 삭제" HorizontalAlignment="Left" Height="35" Margin="672,60,0,0" Background="White"
+                VerticalAlignment="Top" Width="100" Click="BtnDelete_Click" Style="{DynamicResource RoundButtonTemplate}"/>
+        <TextBlock HorizontalAlignment="Left" Margin="22,73,0,0" TextWrapping="Wrap" Text="회원 목록" VerticalAlignment="Top"
+                   FontSize="20" FontWeight="Bold"/>
+        <Border BorderThickness="1" BorderBrush="Black" Margin="22,105,21.6,10">
+            <ListBox x:Name="UserList" ItemsSource="{Binding Users}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Bold"/>
+                                <TextBlock Text=" (" FontSize="20" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding Age}" FontSize="20" FontWeight="Bold"/>
+                                <TextBlock Text="세)" FontSize="20" FontWeight="Bold"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="주소: " FontSize="15"/>
+                                <TextBlock Text="{Binding Address}" FontSize="15"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="전화번호: " FontSize="15"/>
+                                <TextBlock Text="{Binding Phone}" FontSize="15"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+    </Grid>
+</Window>

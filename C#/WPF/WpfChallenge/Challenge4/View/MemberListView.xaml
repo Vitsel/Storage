@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="Challenge4.View.MemberListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Challenge4.View"
+             xmlns:model="clr-namespace:Challenge4.Model"
+             mc:Ignorable="d"
+             x:Name="control"
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+
+    <UserControl.Resources>
+        <Style TargetType="TreeViewItem">
+            <Setter Property="IsExpanded" Value="True"/>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Text="회원 목록:" Grid.Column="0" Grid.Row="0" FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
+        <TextBlock Text="회원 정보:" Grid.Column="2" Grid.Row="0" FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
+
+        <Border Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="1" Padding="10">
+            <TreeView x:Name="treeMemberList" BorderThickness="0" ItemsSource="{Binding Ages}"
+                      SelectedItemChanged="treeMemberList_SelectedItemChanged">
+                <TreeView.Resources>
+                    <DataTemplate DataType="{x:Type model:Member}">
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+
+                    <HierarchicalDataTemplate DataType="{x:Type model:AgeRange}" ItemsSource="{Binding Members}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Range}"/>
+                            <TextBlock Text="대"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+            </TreeView>
+        </Border>
+
+        <Border Grid.Column="2" Grid.Row="2" BorderBrush="Black" BorderThickness="1">
+            <Grid x:Name="gridMemberInfo" DataContext="{Binding SelectedMember}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="이름:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Height="30" Text="{Binding Name}" FontSize="15" VerticalAlignment="Center"
+                 VerticalContentAlignment="Center" Margin="10,0,0,0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="거주지:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Height="30" Text="{Binding Address}" FontSize="15" VerticalAlignment="Center"
+                 VerticalContentAlignment="Center" Margin="10,0,0,0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="나이:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"/>
+                <TextBox x:Name="tboxAge" Grid.Column="1" Grid.Row="2" Height="30" Text="{Binding Age}" FontSize="15" VerticalAlignment="Center"
+                 VerticalContentAlignment="Center" Margin="10,0,0,0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="성별:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Height="30" Text="{Binding Gender}" FontSize="15" VerticalAlignment="Center"
+                 VerticalContentAlignment="Center" Margin="10,0,0,0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="휴대폰:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Height="30" Text="{Binding Phone}" FontSize="15" VerticalAlignment="Center"
+                 VerticalContentAlignment="Center" Margin="10,0,0,0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="생년월일:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"/>
+                <TextBox Grid.Column="1" Grid.Row="5" Height="30" Text="{Binding Birthday}" FontSize="15" VerticalAlignment="Center"
+                 VerticalContentAlignment="Center" Margin="10,0,0,0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="비고:" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="15"/>
+                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Note}" FontSize="15" Margin="10,0,0,0"/>
+
+                <Button x:Name="btnRemove" Content="삭제하기" Grid.Column="1" Grid.Row="8" HorizontalAlignment="Right" Width="150"
+                        Background="White" Command="{Binding DataContext.RemoveMemberCommand, ElementName=control}" CommandParameter="{Binding}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
