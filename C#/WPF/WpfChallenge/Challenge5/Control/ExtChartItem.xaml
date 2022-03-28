@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Challenge5.Control.ExtChartItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Challenge5.Control"
+             x:Name="control"
+             mc:Ignorable="d" d:DesignWidth="800" Height="120" Background="White">
+    
+    <Border Background="#F2F2F2" BorderThickness="1" BorderBrush="#F2F2F2" CornerRadius="8,8,8,8">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="500"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="{Binding Extension}" VerticalAlignment="Center" FontSize="15"/>
+            <ProgressBar Grid.Column="1" VerticalAlignment="Center" Height="30" Foreground="#63A103" Background="White" BorderThickness="0"
+                         Minimum="0" Maximum="{Binding MostCount, ElementName=control}" Value="{Binding Count}"/>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <TextBlock Text="{Binding Count}" FontSize="15"/>
+                <TextBlock Text="개" VerticalAlignment="Center" FontSize="15"/>
+            </StackPanel>
+            <TextBlock Grid.Column="0" Text="{Binding Extension}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+        </Grid>
+    </Border>
+</UserControl>

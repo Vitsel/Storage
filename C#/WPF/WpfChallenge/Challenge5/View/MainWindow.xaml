@@ -1,0 +1,44 @@
+﻿<Window x:Class="Challenge5.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Challenge5"
+        xmlns:vm="clr-namespace:Challenge5.ViewModel"
+        xmlns:view="clr-namespace:Challenge5.View"
+        xmlns:state="clr-namespace:Challenge5.State"
+        xmlns:converter="clr-namespace:Challenge5.Converter"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" MinHeight="430"  MinWidth="580">
+
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <converter:PageStateToVisibilityConverter x:Key="PageStateToVisibilityConverter"/>
+
+        <DataTemplate x:Key="DriveListViewTemplate">
+            <view:DriveListView/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DriveScanViewTemplate">
+            <view:DriveScanView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <ContentControl Content="{Binding}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Setter Property="ContentTemplate" Value="{StaticResource DriveListViewTemplate}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding PageState}" Value="{x:Static state:PageState.DriveScan}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource DriveScanViewTemplate}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+    </Grid>
+</Window>

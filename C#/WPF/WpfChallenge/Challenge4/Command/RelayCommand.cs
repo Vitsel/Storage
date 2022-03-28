@@ -60,7 +60,7 @@ namespace Challenge4.Command
 
         public RelayCommand(Action execute, Func<bool> canExecute = null)
         {
-            this.execute = execute ?? throw new ArgumentNullException();
+            this.execute = execute ?? throw new ArgumentNullException("execute");
             this.canExecute = canExecute;
         }
 

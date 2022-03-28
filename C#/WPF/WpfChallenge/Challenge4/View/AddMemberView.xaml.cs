@@ -1,7 +1,4 @@
-﻿using Challenge4.Model;
-
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace Challenge4.View
 {

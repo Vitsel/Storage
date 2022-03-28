@@ -13,14 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Challenge5
+namespace Challenge5.Control
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ExtChartItem.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ExtChartItem : UserControl
     {
-        public MainWindow()
+        public long MostCount { get; set; }
+
+        public ExtChartItem()
         {
             InitializeComponent();
         }
