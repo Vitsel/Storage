@@ -4,23 +4,83 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Challenge5.View"
+             xmlns:control="clr-namespace:Challenge5.Control"
+             xmlns:converter="clr-namespace:Challenge5.Converter"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="White">
-    
+             x:Name="view"
+             d:DesignHeight="450" d:DesignWidth="800" Background="White" Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <converter:ItemsOrderLimit x:Key="ItemsOrderLimit"/>
+    </UserControl.Resources>
+
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0" DataContext="{Binding SelectedDrive}">
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" DataContext="{Binding SelectedDrive}">
             <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontSize="20"/>
-            <TextBlock Text=" (" FontSize="15"/>
-            <TextBlock Text="{Binding Letter}" FontSize="15"/>
-            <TextBlock Text=")" FontSize="15"/>
+            <TextBlock Text=" (" FontSize="20"/>
+            <TextBlock Text="{Binding Letter}" FontSize="20"/>
+            <TextBlock Text=")" FontSize="20"/>
         </StackPanel>
 
+        <Border Grid.Row="1" Grid.Column="1" Background="#F2F2F2" BorderThickness="1" BorderBrush="#C4C4C4" CornerRadius="8,8,8,8">
+            <Grid>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,0,0">
+                    <TextBlock Text="스캔한 파일: " FontSize="15"/>
+                    <TextBlock Text="{Binding TotalScanedFileCount}" FontSize="15"/>
+                    <TextBlock Text="개" FontSize="15"/>
+                    <TextBlock Text="실패: " FontSize="13" Foreground="Red" Margin="30,0,0,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding FailedFileCount}" FontSize="13" Foreground="Red" VerticalAlignment="Center"/>
+                    <TextBlock Text="개" FontSize="13" Foreground="Red" VerticalAlignment="Center"/>
+                </StackPanel>
+                <Button Width="70" Height="30" Content="중지" HorizontalAlignment="Right" Margin="0,0,20,0" Command="{Binding CancelCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </Button.Style>
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Border BorderBrush="Black" BorderThickness="1">
+                                    <Rectangle Width="27" Height="30" Fill="Red"/>
+                                </Border>
+                                <TextBlock Text="{Binding}" FontSize="15" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+            </Grid>
+        </Border>
 
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="Top 10" FontSize="15" FontWeight="Bold" VerticalAlignment="Bottom"/>
+
+        <ScrollViewer Grid.Column="1" Grid.Row="3" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding FileContainers, Converter={StaticResource ItemsOrderLimit}, ConverterParameter=10}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <control:ExtChartItem Height="60" Margin="0,2,10,2" MaxValue="{Binding DataContext.MostCount, ElementName=view}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>

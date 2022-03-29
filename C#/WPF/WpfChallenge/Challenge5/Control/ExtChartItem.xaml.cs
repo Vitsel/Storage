@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Challenge5.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Challenge5.Control
 {
@@ -20,7 +9,12 @@ namespace Challenge5.Control
     /// </summary>
     public partial class ExtChartItem : UserControl
     {
-        public long MostCount { get; set; }
+        public static readonly DependencyProperty dpMostCount = DependencyProperty.Register("MaxValue", typeof(long), typeof(ExtChartItem));
+        public long MaxValue
+        {
+            get => (long)GetValue(dpMostCount);
+            set => SetValue(dpMostCount, value);
+        }
 
         public ExtChartItem()
         {

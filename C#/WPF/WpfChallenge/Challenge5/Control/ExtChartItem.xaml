@@ -4,26 +4,38 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Challenge5.Control"
+             xmlns:converter="clr-namespace:Challenge5.Converter"
              x:Name="control"
-             mc:Ignorable="d" d:DesignWidth="800" Height="120" Background="White">
-    
-    <Border Background="#F2F2F2" BorderThickness="1" BorderBrush="#F2F2F2" CornerRadius="8,8,8,8">
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="120" Background="White">
+
+    <UserControl.Resources>
+        <converter:BytesToFormat x:Key="BytesToFormat"/>
+    </UserControl.Resources>
+
+    <Border Background="#F2F2F2" BorderThickness="1" BorderBrush="#F2F2F2" CornerRadius="5">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="500"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1*" MinWidth="100" MaxWidth="200"/>
+                <ColumnDefinition Width="2*" MinWidth="200"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="1*" MinWidth="80" MaxWidth="200"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="1*" MinWidth="80" MaxWidth="200"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="{Binding Extension}" VerticalAlignment="Center" FontSize="15"/>
-            <ProgressBar Grid.Column="1" VerticalAlignment="Center" Height="30" Foreground="#63A103" Background="White" BorderThickness="0"
-                         Minimum="0" Maximum="{Binding MostCount, ElementName=control}" Value="{Binding Count}"/>
-            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                <TextBlock Text="{Binding Count}" FontSize="15"/>
+            <TextBlock Grid.Column="1" Text="{Binding Extension}" VerticalAlignment="Center" FontSize="15"/>
+            
+            <ProgressBar Grid.Column="2" VerticalAlignment="Center" Height="25" Foreground="#63A103" Background="White" BorderThickness="0"
+                         Minimum="0" Maximum="{Binding MaxValue, ElementName=control}" Value="{Binding Count, Mode=OneWay}" x:Name="tt"/>
+            
+            <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <TextBlock Text="{Binding Count, Mode=OneWay}" FontSize="15"/>
                 <TextBlock Text="개" VerticalAlignment="Center" FontSize="15"/>
             </StackPanel>
-            <TextBlock Grid.Column="0" Text="{Binding Extension}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+
+            <TextBlock Grid.Column="6" Text="{Binding TotalSize, Converter={StaticResource BytesToFormat}}"
+                       VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
         </Grid>
     </Border>
 </UserControl>

@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace Challenge5.Model
 {
-    public class NotifiableModel : INotifyPropertyChanged
+    public class NotifiableModel : DependencyObject, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

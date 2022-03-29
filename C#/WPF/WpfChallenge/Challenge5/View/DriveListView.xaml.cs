@@ -27,7 +27,7 @@ namespace Challenge5.View
             vm.SelectedDrive = ((DriveItem)e.Source).DataContext as Drive;
 
             if (vm.SelectedDrive.IsValid)
-                vm.SetStatus(State.PageState.DriveScan);
+                vm.SetPage(State.PageState.DriveScan);
             else
                 MessageBox.Show($"분석할 수 없는 드라이브 입니다.");
         }

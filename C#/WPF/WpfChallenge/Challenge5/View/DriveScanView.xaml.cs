@@ -13,5 +13,10 @@ namespace Challenge5.View
         {
             InitializeComponent();
         }
+
+        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            (DataContext as MainViewModel)?.ScanDriveAsync();
+        }
     }
 }

@@ -16,8 +16,6 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <converter:PageStateToVisibilityConverter x:Key="PageStateToVisibilityConverter"/>
-
         <DataTemplate x:Key="DriveListViewTemplate">
             <view:DriveListView/>
         </DataTemplate>

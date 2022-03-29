@@ -59,13 +59,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Control\DriveItem.xaml.cs">
       <DependentUpon>DriveItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\ExtChartItem.xaml.cs">
       <DependentUpon>ExtChartItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converter\PageStateToVisibilityConverter.cs" />
+    <Compile Include="Converter\BytesToFormat.cs" />
+    <Compile Include="Converter\ItemsOrderLimit.cs" />
+    <Compile Include="Model\FileContainer.cs" />
+    <Compile Include="Model\FileItem.cs" />
+    <Compile Include="Model\ScanedDrive.cs" />
     <Compile Include="State\PageState.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="View\DriveListView.xaml.cs">
