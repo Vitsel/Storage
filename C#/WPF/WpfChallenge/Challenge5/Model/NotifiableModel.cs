@@ -8,9 +8,9 @@ namespace Challenge5.Model
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string name = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string name = null, object sender = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            PropertyChanged?.Invoke(sender ?? this, new PropertyChangedEventArgs(name));
         }
     }
 }

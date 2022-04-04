@@ -12,12 +12,15 @@
 
     <UserControl.Resources>
         <converter:ItemsOrderLimit x:Key="ItemsOrderLimit"/>
+        <converter:NullVisibilityConverter x:Key="NullVisibilityConverter"/>
+        <converter:BmpToImgSource x:Key="BitmapToImgSource"/>
     </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
@@ -26,16 +29,21 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="64"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" DataContext="{Binding SelectedDrive}">
+        <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center"
+                    DataContext="{Binding SelectedDrive}">
             <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontSize="20"/>
             <TextBlock Text=" (" FontSize="20"/>
             <TextBlock Text="{Binding Letter}" FontSize="20"/>
             <TextBlock Text=")" FontSize="20"/>
         </StackPanel>
 
-        <Border Grid.Row="1" Grid.Column="1" Background="#F2F2F2" BorderThickness="1" BorderBrush="#C4C4C4" CornerRadius="8,8,8,8">
+        <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Background="#F2F2F2" BorderThickness="1"
+                BorderBrush="#C4C4C4" CornerRadius="8,8,8,8">
             <Grid>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,0,0">
                     <TextBlock Text="스캔한 파일: " FontSize="15"/>
@@ -45,39 +53,119 @@
                     <TextBlock Text="{Binding FailedFileCount}" FontSize="13" Foreground="Red" VerticalAlignment="Center"/>
                     <TextBlock Text="개" FontSize="13" Foreground="Red" VerticalAlignment="Center"/>
                 </StackPanel>
-                <Button Width="70" Height="30" Content="중지" HorizontalAlignment="Right" Margin="0,0,20,0" Command="{Binding CancelCommand}">
+                <Button Width="70" Height="30" Content="중지" HorizontalAlignment="Right" Margin="0,0,20,0" Command="{Binding CancelCommand}"
+                        x:Name="btnCancel" Click="btnCancel_Click">
                     <Button.Style>
                         <Style TargetType="Button">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border BorderThickness="0" Background="Transparent">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border BorderBrush="Black" BorderThickness="1">
+                                                    <Rectangle Width="27" Height="30" Fill="Red" x:Name="rectBtnCancel"/>
+                                                </Border>
+                                                <TextBlock Text="{TemplateBinding Content}" FontSize="15" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                        <ControlTemplate.Resources>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                                        </ControlTemplate.Resources>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="rectBtnCancel" Property="Rectangle.Fill" Value="DarkRed"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="rectBtnCancel" Property="Rectangle.Fill" Value="#570000"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </Button.Style>
-                    <Button.ContentTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Border BorderBrush="Black" BorderThickness="1">
-                                    <Rectangle Width="27" Height="30" Fill="Red"/>
-                                </Border>
-                                <TextBlock Text="{Binding}" FontSize="15" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </Button.ContentTemplate>
                 </Button>
             </Grid>
         </Border>
 
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="Top 10" FontSize="15" FontWeight="Bold" VerticalAlignment="Bottom"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="Top 10" FontSize="15" FontWeight="Bold" VerticalAlignment="Bottom" Margin="0,0,0,10"/>
 
-        <ScrollViewer Grid.Column="1" Grid.Row="3" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding FileContainers, Converter={StaticResource ItemsOrderLimit}, ConverterParameter=10}">
+        <ListBox Grid.Column="1" Grid.Row="3" x:Name="extList" BorderThickness="0"
+                 ItemsSource="{Binding FileContainers, Converter={StaticResource ItemsOrderLimit}, ConverterParameter=10}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <control:ExtChartItem Height="60" MaxValue="{Binding DataContext.MostCount, ElementName=view}">
+                        <control:ExtChartItem.Style>
+                            <Style TargetType="control:ExtChartItem">
+                                <Setter Property="ContentBackground" Value="#F2F2F2"/>      
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
+                                                 Value="true">
+                                        <Setter Property="ContentBackground" Value="#C3EAFC"/>
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="ContentBackground" Value="#E0F4FE"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </control:ExtChartItem.Style>
+                    </control:ExtChartItem>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <EventSetter Event="Selected" Handler="ListBoxItem_Selected"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border BorderThickness="0" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter/>
+                                </Border>
+                                <ControlTemplate.Resources>
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                                </ControlTemplate.Resources>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
+        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,0,10"
+                    Visibility="{Binding SelectedFileContainer, Converter={StaticResource NullVisibilityConverter}}">
+            <TextBlock Text="Files(" FontSize="15" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedFileContainer.Extension}" FontSize="15" FontWeight="Bold"/>
+            <TextBlock Text=")" FontSize="15" FontWeight="Bold"/>
+        </StackPanel>
+
+        <ListBox Grid.Row="3" Grid.Column="2" ItemsSource="{Binding SelectedFileContainer.Files}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="Images" FontSize="15" FontWeight="Bold" VerticalAlignment="Bottom" Margin="0,0,0,10"/>
+
+        <ScrollViewer Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Thumbnails}" BorderThickness="0" x:Name="listThubnail">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <control:ExtChartItem Height="60" Margin="0,2,10,2" MaxValue="{Binding DataContext.MostCount, ElementName=view}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Converter={StaticResource BitmapToImgSource}}" Margin="0,0,10,0" Width="64" Height="64"/>
+                        </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical"/>
+                        <StackPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

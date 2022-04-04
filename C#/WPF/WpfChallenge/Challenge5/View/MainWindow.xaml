@@ -9,7 +9,7 @@
         xmlns:state="clr-namespace:Challenge5.State"
         xmlns:converter="clr-namespace:Challenge5.Converter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" MinHeight="430"  MinWidth="580">
+        Title="MainWindow" Height="650" Width="1000" MinHeight="430"  MinWidth="580">
 
     <Window.DataContext>
         <vm:MainViewModel/>

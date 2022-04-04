@@ -15,8 +15,6 @@ namespace Challenge5.Converter
             if (!int.TryParse((string)limit, out count))
                 throw new ArgumentException();
 
-            var t = ((IEnumerable<object>)items).OrderByDescending(i => ((FileContainer)i).Count);
-
             return ((IEnumerable<object>)items).OrderByDescending(i => ((FileContainer)i).Count).Take(count);
         }
 

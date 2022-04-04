@@ -16,6 +16,20 @@ namespace Challenge5.Model
             var fi = new FileInfo(path);
             Size = fi.Length;
             IsImage = IsImageExtension(fi.Extension);
+
+            try
+            {
+                Thumbnail = IsImage ? MakeThubnail(path) : null;
+            }
+            catch
+            {
+                IsImage = false;
+            }
+        }
+
+        private Image MakeThubnail(string path)
+        {
+            return new Bitmap(path).GetThumbnailImage(64, 64, null, new System.IntPtr());
         }
 
         private bool IsImageExtension(string extension)

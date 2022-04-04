@@ -12,16 +12,17 @@
         <converter:BytesToFormat x:Key="BytesToFormat"/>
     </UserControl.Resources>
 
-    <Border Background="#F2F2F2" BorderThickness="1" BorderBrush="#F2F2F2" CornerRadius="5">
+    <Border Background="{Binding ContentBackground, ElementName=control}"
+            BorderThickness="1" BorderBrush="{Binding ContentBackground, ElementName=control}" CornerRadius="5">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="1*" MinWidth="100" MaxWidth="200"/>
-                <ColumnDefinition Width="2*" MinWidth="200"/>
+                <ColumnDefinition Width="1*" MaxWidth="200"/>
+                <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="30"/>
-                <ColumnDefinition Width="1*" MinWidth="80" MaxWidth="200"/>
+                <ColumnDefinition Width="1*" MaxWidth="200"/>
                 <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="1*" MinWidth="80" MaxWidth="200"/>
+                <ColumnDefinition Width="1*" MaxWidth="200"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="1" Text="{Binding Extension}" VerticalAlignment="Center" FontSize="15"/>

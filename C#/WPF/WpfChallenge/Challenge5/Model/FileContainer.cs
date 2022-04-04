@@ -1,29 +1,27 @@
-﻿using Challenge5.ViewModel;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Challenge5.Model
 {
     public class FileContainer : NotifiableModel
     {
         public string Extension { get; set; }
-        public List<FileItem> Files { get; set; }
+        public ObservableCollection<FileItem> Files { get; set; }
         public long Count { get => Files.Count; }
         public long TotalSize { get; set; }
 
         public FileContainer(string extension)
         {
             Extension = extension;
-            Files = new List<FileItem>();
+            Files = new ObservableCollection<FileItem>();
         }
 
-        public void Add(string path)
+        public void AddRange(IEnumerable<FileItem> second)
         {
-            Files.Add(new FileItem(path));
+            foreach(var f in second)
+                Files.Add(f);
+
             TotalSize = Files.Sum(f => f.Size);
         }
 
